@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronómetro</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        #cronometro {
+            font-size: 2em;
+        }
+        .botones {
+            margin-top: 20px;
+        }
+        button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div id="cronometro">00:00:00</div>
+        <div class="botones">
+            <button onclick="iniciar()">Iniciar</button>
+            <button onclick="pausar()">Pausar</button>
+            <button onclick="reiniciar()">Reiniciar</button>
+        </div>
+    </div>
+
+    <script>
+        let segundos = 0;
+        let intervalo = null;
+
+        function actualizarCronometro() {
+            const hrs = Math.floor(segundos / 3600);
+            const mins = Math.floor((segundos % 3600) / 60);
+            const secs = segundos % 60;
+
+            const formato = (n) => (n < 10 ? "0" + n : n);
+            document.getElementById("cronometro").innerText = `${formato(hrs)}:${formato(mins)}:${formato(secs)}`;
+        }
+
+        function iniciar() {
+            if (intervalo) return; // Evita que se creen múltiples intervalos
+            intervalo = setInterval(() => {
+                segundos++;
+                actualizarCronometro();
+            }, 1000);
+        }
+
+        function pausar() {
+            clearInterval(intervalo);
+            intervalo = null;
+        }
+
+        function reiniciar() {
+            pausar();
+            segundos = 0;
+            actualizarCronometro();
+        }
+    </script>
+</body>
+</html>
